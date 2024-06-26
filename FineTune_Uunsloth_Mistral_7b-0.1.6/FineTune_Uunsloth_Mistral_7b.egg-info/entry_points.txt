@@ -1,0 +1,2 @@
+[console_scripts]
+finetune-mistral = FineTune_Uunsloth_Mistral_7b.fine_tune:main
