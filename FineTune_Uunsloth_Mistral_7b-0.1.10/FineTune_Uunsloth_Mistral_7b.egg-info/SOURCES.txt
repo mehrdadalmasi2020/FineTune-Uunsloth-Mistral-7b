@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+FineTune_Uunsloth_Mistral_7b/__init__.py
+FineTune_Uunsloth_Mistral_7b/fine_tune.py
+FineTune_Uunsloth_Mistral_7b.egg-info/PKG-INFO
+FineTune_Uunsloth_Mistral_7b.egg-info/SOURCES.txt
+FineTune_Uunsloth_Mistral_7b.egg-info/dependency_links.txt
+FineTune_Uunsloth_Mistral_7b.egg-info/entry_points.txt
+FineTune_Uunsloth_Mistral_7b.egg-info/requires.txt
+FineTune_Uunsloth_Mistral_7b.egg-info/top_level.txt

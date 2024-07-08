@@ -1,0 +1,99 @@
+# FineTune_Uunsloth_Mistral_7b
+[![Downloads](https://static.pepy.tech/badge/finetune-uunsloth-mistral-7b)](https://pepy.tech/project/finetune-uunsloth-mistral-7b)
+
+A Python package designed for fine-tuning the Mistral model and creating responses from given questions, ideal for systems without a large GPU (runnable on the free tier of Kaggle kernels)
+You can find instructions on how to prepare the training dataset from [FragenAntwortLLMGPU](https://pypi.org/project/FragenAntwortLLMGPU/) or [FragenAntwortLLMCPU](https://pypi.org/project/FragenAntwortLLMCPU/).
+
+## Installation
+
+```bash
+pip uninstall FineTune_Uunsloth_Mistral_7b
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118       (refer https://pytorch.org/get-started/locally/)
+pip install FineTune_Uunsloth_Mistral_7b
+```
+
+## Usage
+
+``` python
+
+# In this library, the model used is unsloth/mistral-7b-bnb-4bit
+
+from FineTune_Uunsloth_Mistral_7b import FineTune_Uunsloth_Mistral_7b
+
+# Paths
+dataset_path = 'path/to/your/dataset.jsonl'
+cache_dir = 'path/to/cache'
+output_dir = 'path/to/output'
+base_model_path = 'unsloth/mistral-7b-v0.2'  # Path to the base model
+merged_model_output_dir = 'path/to/merged/model/output'
+
+# Initialize the fine-tuner
+fine_tuner = FineTune_Uunsloth_Mistral_7b(dataset_path, cache_dir)
+
+# Train the model
+fine_tuner.train_model(
+    output_dir=output_dir,
+    num_train_epochs=3,
+    per_device_train_batch_size=2,
+    per_device_eval_batch_size=1
+)
+
+# Generate a response
+max_new_tokens = 500
+temperature = 0.1
+question = "What is the capital of France?"
+response = fine_tuner.generate_response(question, max_new_tokens=max_new_tokens, temperature=temperature)
+print("Generated response:", response)
+
+# Selectively merge models
+merged_model = fine_tuner.selective_merge(
+    base_model_path=base_model_path,
+    fine_tuned_model_path=output_dir,
+    output_dir=merged_model_output_dir
+)
+print("Merged model saved to:", merged_model_output_dir)
+
+
+```
+
+### Explanation of Parameters
+
+- **`dataset_path`**: Specifies the path to the dataset file in JSONL format. This dataset will be used for training the model.
+- **`cache_dir`**: Directory for caching model files and other intermediate data. This helps in reusing downloaded files and speeding up the process. It is also used as the path to the base model in the `selective_merge` method.
+- **`output_dir`**: Directory where the trained model, logs, and other outputs will be saved after training. It is also used as the path to the fine-tuned model in the `selective_merge` method.
+- **`merged_model_output_dir`**: Directory where the merged model will be saved after using the `selective_merge` method.
+- **`num_train_epochs`**: The number of epochs to train the model. An epoch is one complete pass through the training dataset. More epochs can lead to better model performance but also increase training time.
+- **`per_device_train_batch_size`**: The batch size used during training for each device (e.g., GPU). A larger batch size can speed up training but requires more memory.
+- **`per_device_eval_batch_size`**: The batch size used during evaluation for each device. Similar to training batch size but used during model evaluation.
+- **`question`**: The input question for which the model should generate a response.
+- **`max_new_tokens`**: The maximum number of new tokens (words or pieces of words) the model should generate in response to the input question.
+- **`temperature`**: The temperature rate for generating responses. Lower values make the output more deterministic and higher values make it more random.
+
+
+
+## Features
+
+This package provides functionalities to fine-tune the Mistral model (FineTune_Uunsloth_Mistral_7b), a causal language model designed for generating coherent and contextually relevant text. 
+The key features include:
+- **Model Fine-Tuning**: Fine-tune the Mistral model on a custom dataset to adapt it to specific tasks or domains.
+- **Response Generation**: Generate contextually relevant responses based on provided questions.
+- **Easy Integration**: Simple and easy-to-use interface for integrating model fine-tuning and response generation into your applications.
+- **Resource Management**: Efficiently manage computational resources with built-in cleanup functions.
+
+The package specifically fine-tunes the "unsloth/mistral-7b-bnb-4bit" model, adapting it to the custom dataset provided by the user.
+
+### Contributing
+
+Contributions are welcome! Please fork this repository and submit pull requests.
+
+### License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+### Authors
+
+- Mehrdad Almasi and Demival VASQUES FILHO
+
+### Contact
+
+For questions or feedback, please contact **Mehrdad.al.2023@gmail.com, demival.vasques@uni.lu**.
